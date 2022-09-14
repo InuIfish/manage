@@ -24,7 +24,7 @@
       <el-button class = 'loginBtn' type="primary" @click="submitForm(ruleFormRef)"
         >登陆</el-button
       >
-      <el-button class = 'loginBtn' @click="resetForm(ruleFormRef)">重置</el-button>
+      <el-button class = 'loginBtn' @click="resetForm()">重置</el-button>
     </el-form-item>
   </el-form>
     </div>
@@ -35,12 +35,13 @@ import { defineComponent, reactive, toRefs,ref } from 'vue'
 import { LoginData } from '../type/login'
 import type {FormInstance } from 'element-plus'
 import {login } from '../request/api'
-
+import { useRouter } from 'vue-router'
 
 export default defineComponent({
     setup () {
       //实例化对象
         const data = reactive(new LoginData())
+
         // const data = reactive({
         //     ruleForm:{
         //         account:"",
@@ -48,7 +49,7 @@ export default defineComponent({
         //     }
             
         // })
-
+        const router = useRouter()//指向全局路由
         const rules  = {
           rules:{
             account: [
@@ -63,24 +64,29 @@ export default defineComponent({
         //登陆按键
         const ruleFormRef = ref<FormInstance>() 
         const submitForm = (formEl: FormInstance | undefined) => {
-  if (!formEl) return
+  if (!formEl) return;
   //对表单的内容进行验证
   //valid是布尔类型，为true表示验证成功
   formEl.validate((valid) => {
+    //如果为真，发送请求
     if (valid) {
       // console.log('submit!')
       login(data.ruleForm).then((res) =>{
         console.log(res);
+        // 1 保存token 2 跳转页面
+        localStorage.setItem('token',res.data.token)
+        router.push('/')
       })
-      // .catch( error=>{
+      // .catch(error=>{
       //   console.log(error)
       // }
       // )
     } else {
-      console.log('error submit!')
-      return false
+      console.log('error submit!');
+      return false;
     }
   })
+  // console.log(formEl)
 }
         //重置按键
         const resetForm = () =>{
@@ -89,7 +95,7 @@ export default defineComponent({
         }
         return {
             ...toRefs(data),
-            ...toRefs(rules),
+            rules,
             resetForm,
             ruleFormRef,
             submitForm
