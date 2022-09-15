@@ -5,7 +5,17 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
     name: 'home',
-    component: HomeView
+    component: HomeView,
+    children:[
+      {
+        path:"goods",
+        name:"goods",
+        meta:{
+          isShow:true
+        },
+        component: () => import(/* webpackChunkName: "about" */ '../views/GoodsView.vue')
+      }
+    ]
   },
   {
     path: '/about',
