@@ -12,12 +12,14 @@
       </el-header>
       <el-container>
         <el-aside width="200px">
+          <!-- router 开启路由模式，通过标签里面的index进行跳转 -->
       <el-menu
       active-text-color="#ffd04b"
         background-color="#545c64"
         class="el-menu-vertical-demo"
         default-active="2"
         text-color="#fff"
+        router 
         @open="handleOpen"
         @close="handleClose"
       >
@@ -38,8 +40,10 @@
             <el-menu-item index="1-4-1">item one</el-menu-item>
           </el-sub-menu>
         </el-sub-menu>
-        <el-menu-item index="2">
-          <span>商品列表</span>
+        <!-- :inde="""点击了哪个路由就会跳转到所点击的页面去 -->
+        <!-- v-for循环获取list里面的item -->
+        <el-menu-item :index="item.path" v-for="item in list" :key="item.path">
+          <span>{{item.meta.title}}</span>
         </el-menu-item>
         <el-menu-item index="3" disabled>
 
@@ -53,7 +57,10 @@
         </el-aside>
 
 
-        <el-main>Main</el-main>
+        <el-main>
+          <!-- 设置路由出口 -->
+          <router-view></router-view>
+        </el-main>
       </el-container>
     </el-container>
   </div>
@@ -74,9 +81,10 @@ export default defineComponent({
   console.log(key, keyPath)
 }
 
-    const router = useRouter
-    
-
+    const router = useRouter()
+    //获取index下的所有路由列表，获取meta里面带有isShow的路由
+    const list = router.getRoutes().filter(v=> v.meta.isShow)
+    return { list }
 
 
   }

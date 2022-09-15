@@ -14,3 +14,13 @@ export function login(data:LoginData){
 })
 
 }
+
+export function goodlist(){
+    return service({
+        //配置接口子地址，需要与接口名一致
+        url:"/goods",
+        method: "get",
+        
+})
+
+}
