@@ -20,8 +20,8 @@
         default-active="2"
         text-color="#fff"
         router 
-        @open="handleOpen"
-        @close="handleClose"
+
+
       >
         <el-sub-menu index="1">
           <template #title>
@@ -60,6 +60,7 @@
         <el-main>
           <!-- 设置路由出口 -->
           <router-view></router-view>
+
         </el-main>
       </el-container>
     </el-container>
