@@ -23,26 +23,30 @@
   @size-change="sizeChange" 
   background 
   layout="prev, pager, next"  
-  :total="selectData.count"  
+  :total="selectData.count"
 />
 </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, reactive,toRefs } from 'vue'
+import { computed, defineComponent, onMounted, reactive,toRefs, watch } from 'vue'
 import { goodlist } from '@/request/api'
-import { initData} from '@/type/goods'
+import { initData,listInt} from '@/type/goods'
 
 export default defineComponent({
     setup () {
 
         const data = reactive(new initData())
-        goodlist().then(res=>{
+        onMounted(() => {
+                getgoods()
+        })
+        const getgoods = () =>
+        {goodlist().then(res=>{
             // console.log(res)
             data.list=res.data
             data.selectData.count=res.data.length
 
-        });
+        })};
         const datalist = reactive({
             comlist:computed(()=>{
                 //[1，10][11,20][21,30]
@@ -61,13 +65,29 @@ export default defineComponent({
             data.selectData.pagesize=pagesize
         }
         const onSubmit = ()=>{
-            
+            let arr :listInt[]=[]//定义数组，用于查询过后的要展示的数据
+            if(data.selectData.title)//判断是否有值
+           {
+            arr = data.list.filter((value)=>{//将过滤出来的数组赋值给arr
+                return value.title.indexOf(data.selectData.title) !== -1//如果能找到下标，就说明值为true
+            })
+           }
+           data.selectData.count=arr.length
+           data.list=arr 
         }
-
+        //监听输入框的属性
+        watch([()=>data.selectData.title],()=>{
+            if(data.selectData.title==""){
+                getgoods()
+            }
+        });
+            
+        
         return {...toRefs(data),
                 currentChange,
                 sizeChange,
-                datalist
+                datalist,
+                onSubmit
         }
     }
 })

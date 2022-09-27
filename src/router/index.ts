@@ -25,6 +25,15 @@ const routes: Array<RouteRecordRaw> = [
         },
         component: () => import(/* webpackChunkName: "user" */ '../views/UserView.vue')
       },
+      {
+        path:"role",
+        name:"role",
+        meta:{
+          isShow:true,
+          title:"rolelist"
+        },
+        component: () => import(/* webpackChunkName: "role" */ '../views/RoleView.vue')
+      },
     ]
   },
   {

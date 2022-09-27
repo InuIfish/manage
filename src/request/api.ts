@@ -24,3 +24,23 @@ export function goodlist(){
 })
 
 }
+
+export function getUserlist(){
+    return service({
+        //配置接口子地址，需要与接口名一致
+        url:"/user",
+        method: "get",
+        
+})
+
+}
+
+export function getRolelist(){
+    return service({
+        //配置接口子地址，需要与接口名一致
+        url:"/role",
+        method: "get",
+        
+})
+
+}

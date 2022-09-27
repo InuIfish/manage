@@ -6,7 +6,7 @@
     <el-col :span="4"><img src="../assets/logo.png" class="logo"></el-col>
     <el-col :span="16"><h2>后台管理系统</h2></el-col>
     <el-col :span="4">
-      <span class="btn">退出登陆</span>
+      <span class="btn">退出登录</span>
     </el-col>
   </el-row>
       </el-header>
